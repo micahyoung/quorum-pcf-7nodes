@@ -310,14 +310,22 @@
       cf ssh node-1
       ```
    
-   * ...within the container:
+   * ... within the container:
       ```sh
       cd app
       export PATH=$PATH:`pwd`/bin
       geth attach qdata/dd1/geth.ipc
       ```
    
-   * ...in the solc interpreter:
+   * ... in the solc interpreter:
       ```js
       loadScript('script1.js')
+      ```
+      
+   * ... you should see the output if your successful
+      ```js
+      Contract transaction send: TransactionHash: 0x541da6399119e66687fe5edada5162d586c56271800d626e33cf9e7ae811d8f6 waiting to be mined...
+      true
+      > Contract mined! Address: 0x064f860b6683223b03b38252853d5d2c210cce19
+      [object Object]
       ```
