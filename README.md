@@ -1,4 +1,4 @@
-# Quorum PCF 7nodes example
+# Quorum on Pivotal Cloud Foundry - 7nodes example
 
 ## Pre-requisites
 
