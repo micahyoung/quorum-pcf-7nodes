@@ -59,7 +59,7 @@
 
 1. Deploy the bootnode
    ```bash
-   cf push -p deploy/ -f pipelines/manifests/bootnode-manifest.yml
+   cf push bootnode -p deploy/ -f pipelines/manifests/bootnode-manifest.yml
    ```
 
 1. Update the service with the bootnode's IP
@@ -73,7 +73,7 @@
 
 1. Deploy node-1
    ```
-   cf push -p deploy/ -f pipelines/manifests/node1-manifest.yml
+   cf push node-1 -p deploy/ -f pipelines/manifests/node1-manifest.yml
    ```
 
 1. Update the service with the bootnode's and node-1's IPs
@@ -89,12 +89,12 @@
 
 1. Push the remaining apps
    ```bash
-   cf push -p deploy/ -f pipelines/manifests/node2-manifest.yml
-   cf push -p deploy/ -f pipelines/manifests/node3-manifest.yml
-   cf push -p deploy/ -f pipelines/manifests/node4-manifest.yml
-   cf push -p deploy/ -f pipelines/manifests/node5-manifest.yml
-   cf push -p deploy/ -f pipelines/manifests/node6-manifest.yml
-   cf push -p deploy/ -f pipelines/manifests/node7-manifest.yml
+   cf push node-2 -p deploy/ -f pipelines/manifests/node2-manifest.yml
+   cf push node-3 -p deploy/ -f pipelines/manifests/node3-manifest.yml
+   cf push node-4 -p deploy/ -f pipelines/manifests/node4-manifest.yml
+   cf push node-5 -p deploy/ -f pipelines/manifests/node5-manifest.yml
+   cf push node-6 -p deploy/ -f pipelines/manifests/node6-manifest.yml
+   cf push node-7 -p deploy/ -f pipelines/manifests/node7-manifest.yml
    ```
 
 1. Add all the container to container networking rules (copy, paste, wait...)
