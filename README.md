@@ -305,10 +305,19 @@
    ```
 
 1. SSH into node-1 to run the `script1.js`
-   ```bash
-   → cf ssh node-1
-   $ cd app
-   $ export PATH=$PATH:`pwd`/bin
-   $ geth attach qdata/dd1/geth.ipc
-   > loadScript('script1.js')
-   ```
+   * SSH to node-1
+      ```bash
+      cf ssh node-1
+      ```
+   
+   * ...within the container
+      ```sh
+      cd app
+      export PATH=$PATH:`pwd`/bin
+      geth attach qdata/dd1/geth.ipc
+      ```
+   
+   * ...in the solc interpreter
+      ```js
+      loadScript('script1.js')
+      ```
