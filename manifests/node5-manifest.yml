@@ -1,0 +1,21 @@
+---
+applications:
+- name: node-5
+  buildpack: binary_buildpack
+  health-check-type: process
+  memory: 512MB
+  no-route: true
+  command: LD_LIBRARY_PATH=bin/ PATH=$PATH:bin/ ./voter-node-start.sh
+  services:
+  - ip-service
+  env:
+    NETID: 87234
+    BOOTNODE_HASH: 61077a284f5ba7607ab04f33cfde2750d659ad9af962516e159cf6ce708646066cd927a900944ce393b98b95c914e4d6c54b099f568342647a1cd4a262cc0423
+    BOOTNODE_PORT: 33445
+    OTHER_NODE_PORT: 9000
+    NODE_PORT: 9004
+    RPC_PORT: 22004
+    LISTEN_PORT: 21004
+    PRIVATE_CONFIG_FILE: tm5.conf
+    DATA_DIR: qdata/dd5
+    VOTE_ACCOUNT: "0x0638e1574728b6d862dd5d3a3e0942c3be47d996"

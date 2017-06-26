@@ -1,0 +1,20 @@
+---
+applications:
+- name: node-6
+  buildpack: binary_buildpack
+  health-check-type: process
+  memory: 512MB
+  no-route: true
+  command: LD_LIBRARY_PATH=bin/ PATH=$PATH:bin/ ./node-start.sh
+  services:
+  - ip-service
+  env:
+    NETID: 87234
+    BOOTNODE_HASH: 61077a284f5ba7607ab04f33cfde2750d659ad9af962516e159cf6ce708646066cd927a900944ce393b98b95c914e4d6c54b099f568342647a1cd4a262cc0423
+    BOOTNODE_PORT: 33445
+    OTHER_NODE_PORT: 9000
+    NODE_PORT: 9005
+    RPC_PORT: 22005
+    LISTEN_PORT: 21005
+    PRIVATE_CONFIG_FILE: tm6.conf
+    DATA_DIR: qdata/dd6
