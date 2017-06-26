@@ -11,21 +11,21 @@
 ## Deployment
 
 1. Create a new empty directory and `cd` into it
-```bash
-mkdir my-cluster
-cd my-cluster
-```
+  ```bash
+  mkdir my-cluster
+  cd my-cluster
+  ```
 
 1. Make a directory called `deploy` with a subdirectory called `bin` inside the empty directory
-```bash
-mkdir -p deploy/bin
-```
+  ```bash
+  mkdir -p deploy/bin
+  ```
 
 1. Download the latest release binaries and libraries from quorum pipeline to `deploy/bin`
 
-https://github.com/micahyoung/quorum-pipeline/releases/
+  https://github.com/micahyoung/quorum-pipeline/releases/
 
-Download `bootnode`, `constellation-node`, `geth`, `libsodium.*` and save to `deploy/bin`
+  Download `bootnode`, `constellation-node`, `geth`, `libsodium.*` and save to `deploy/bin`
 
 1. Change all binaries to executable
 ```bash
