@@ -297,6 +297,11 @@
    cf allow-access node-5   bootnode --protocol udp --port 33445
    cf allow-access node-6   bootnode --protocol udp --port 33445
    cf allow-access node-7   bootnode --protocol udp --port 33445
+   
+   # verify 
+   cf list-access --app node-1   | wc -l #=> 56
+   cf list-access --app node-7   | wc -l #=> 56
+   cf list-access --app bootnode | wc -l #=> 32
    ```
 
 1. SSH into node-1 to run the `script1.js`
