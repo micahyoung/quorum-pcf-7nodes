@@ -28,6 +28,9 @@ sed -ibak "s|url = .*|url = \"http://$NODE_IP:$NODE_PORT/\"|" $PRIVATE_CONFIG_FI
 sed -ibak "s|port = .*|port = $NODE_PORT|" $PRIVATE_CONFIG_FILE
 sed -ibak "s|otherNodeUrls = .*|otherNodeUrls = [\"http://$OTHER_NODE_IP:$OTHER_NODE_PORT/\"]|" $PRIVATE_CONFIG_FILE
 
+export PATH=$PATH:`pwd`/bin
+export LD_LIBRARY_PATH=`pwd`/bin
+
 constellation-node \
   --verbosity=9 \
   $PRIVATE_CONFIG_FILE \

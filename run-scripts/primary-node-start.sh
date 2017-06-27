@@ -24,6 +24,11 @@ echo "BOOTNODE_IP=$BOOTNODE_IP"
 sed -ibak "s|url = .*|url = \"http://$NODE_IP:$NODE_PORT/\"|" $PRIVATE_CONFIG_FILE
 sed -ibak "s|port = .*|port = $NODE_PORT|" $PRIVATE_CONFIG_FILE
 
+export PATH=$PATH:`pwd`/bin
+export LD_LIBRARY_PATH=`pwd`/bin
+
+./init.sh
+
 constellation-node \
   --verbosity=9 \
   $PRIVATE_CONFIG_FILE \
