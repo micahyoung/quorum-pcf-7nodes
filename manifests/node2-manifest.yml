@@ -5,7 +5,7 @@ applications:
   health-check-type: process
   memory: 1024MB
   no-route: true
-  command: LD_LIBRARY_PATH=bin/ PATH=$PATH:bin/ ./blockmaker-node-start.sh
+  command: ./blockmaker-node-start.sh
   services:
   - ip-service
   env:
