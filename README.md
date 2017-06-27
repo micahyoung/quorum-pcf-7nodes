@@ -52,44 +52,16 @@
    cp -r quorum-pcf-7nodes/run-scripts/* deploy/
    ```
 
-1. Create an empty user-provided-service for the apps
+1. Push all apps, unstarted
    ```bash
-   cf create-user-provided-service ip-service -p '{}'
-   ```
-
-1. Deploy the bootnode
-   ```bash
-   cf push bootnode -p deploy/ -f quorum-pcf-7nodes/manifests/bootnode-manifest.yml
-   ```
-
-1. Update the service with the bootnode's IP
-   ```bash
-   cf update-user-provided-service ip-service -p "{
-     \"BOOTNODE_IP\": \"$(cf ssh bootnode -c "hostname --ip-address")\"
-   }"
-   ```
-
-1. Deploy node-1
-   ```
-   cf push node-1 -p deploy/ -f quorum-pcf-7nodes/manifests/node1-manifest.yml
-   ```
-
-1. Update the service with the bootnode's and node-1's IPs
-   ```bash
-   cf update-user-provided-service ip-service -p "{
-     \"BOOTNODE_IP\": \"$(cf ssh bootnode -c 'hostname --ip-address')\",
-     \"OTHER_NODE_IP\": \"$(cf ssh node-1 -c 'hostname --ip-address')\"
-   }"
-   ```
-
-1. Push the remaining apps
-   ```bash
-   cf push node-2 -p deploy/ -f quorum-pcf-7nodes/manifests/node2-manifest.yml
-   cf push node-3 -p deploy/ -f quorum-pcf-7nodes/manifests/node3-manifest.yml
-   cf push node-4 -p deploy/ -f quorum-pcf-7nodes/manifests/node4-manifest.yml
-   cf push node-5 -p deploy/ -f quorum-pcf-7nodes/manifests/node5-manifest.yml
-   cf push node-6 -p deploy/ -f quorum-pcf-7nodes/manifests/node6-manifest.yml
-   cf push node-7 -p deploy/ -f quorum-pcf-7nodes/manifests/node7-manifest.yml
+   cf push bootnode -p deploy/ -f quorum-pcf-7nodes/manifests/bootnode-manifest.yml --no-start
+   cf push node-1   -p deploy/ -f quorum-pcf-7nodes/manifests/node1-manifest.yml    --no-start
+   cf push node-2   -p deploy/ -f quorum-pcf-7nodes/manifests/node2-manifest.yml    --no-start
+   cf push node-3   -p deploy/ -f quorum-pcf-7nodes/manifests/node3-manifest.yml    --no-start
+   cf push node-4   -p deploy/ -f quorum-pcf-7nodes/manifests/node4-manifest.yml    --no-start
+   cf push node-5   -p deploy/ -f quorum-pcf-7nodes/manifests/node5-manifest.yml    --no-start
+   cf push node-6   -p deploy/ -f quorum-pcf-7nodes/manifests/node6-manifest.yml    --no-start
+   cf push node-7   -p deploy/ -f quorum-pcf-7nodes/manifests/node7-manifest.yml    --no-start
    ```
 
 1. Add all the container to container networking rules (copy, paste, wait...)
@@ -304,24 +276,36 @@
    cf list-access --app bootnode | wc -l #=> 32
    ```
 
+1. Start all apps
+   ```bash
+   cf start bootnode
+   cf start node-1
+   cf start node-2
+   cf start node-3
+   cf start node-4
+   cf start node-5
+   cf start node-6
+   cf start node-7
+   ```
+
 1. SSH into node-1 to run the `script1.js`
    * on your command line:
       ```bash
       cf ssh node-1
       ```
-   
+
    * ... within the container:
       ```sh
       cd app
       export PATH=$PATH:`pwd`/bin
       geth attach qdata/dd1/geth.ipc
       ```
-   
+
    * ... in the solc interpreter:
       ```js
       loadScript('script1.js')
       ```
-      
+
    * ... you should see the output if successful
       ```js
       Contract transaction send: TransactionHash: 0x541da6399119e66687fe5edada5162d586c56271800d626e33cf9e7ae811d8f6 waiting to be mined...

@@ -5,24 +5,25 @@ set -e
 true ${NETID:?"!"}
 true ${BOOTNODE_HASH:?"!"}
 true ${BOOTNODE_PORT:?"!"}
+true ${BOOTNODE_IP_ROUTE:?"!"}
 true ${PRIVATE_CONFIG_FILE:?"!"}
 true ${DATA_DIR:?"!"}
 true ${RPC_PORT:?"!"}
 true ${LISTEN_PORT:?"!"}
 true ${NODE_PORT:?"!"}
-true ${VCAP_SERVICES:?"!"}
 
-while read ENV_PAIR; do export "${ENV_PAIR}"; done \
-  < <(echo $VCAP_SERVICES | jq -r '.["user-provided"] | .[].credentials | to_entries[] | "\(.key)=\(.value)"')
-
-true ${BOOTNODE_IP:?"!missing from VCAP_SERVICES"}
-
-NODE_IP=$(hostname --ip-address)
+NODE_IP=$CF_INSTANCE_INTERNAL_IP
+BOOTNODE_IP=$(curl -f -s $BOOTNODE_IP_ROUTE)
 echo "NODE_IP=$NODE_IP"
 echo "BOOTNODE_IP=$BOOTNODE_IP"
 
+while true; do
+  nc -l $PORT < <(echo -e "HTTP/1.1 200 OK\n\n$NODE_IP") > /dev/null
+done &
+
 sed -ibak "s|url = .*|url = \"http://$NODE_IP:$NODE_PORT/\"|" $PRIVATE_CONFIG_FILE
 sed -ibak "s|port = .*|port = $NODE_PORT|" $PRIVATE_CONFIG_FILE
+
 
 export PATH=$PATH:`pwd`/bin
 export LD_LIBRARY_PATH=`pwd`/bin
@@ -49,4 +50,6 @@ PRIVATE_CONFIG=$PRIVATE_CONFIG_FILE \
   --unlock 0 \
   --password passwords.txt \
   --verbosity 4 \
-;
+&
+
+wait

@@ -13,13 +13,9 @@ true ${LISTEN_PORT:?"!"}
 true ${NODE_PORT:?"!"}
 true ${VCAP_SERVICES:?"!"}
 
-while read ENV_PAIR; do export "${ENV_PAIR}"; done \
-  < <(echo $VCAP_SERVICES | jq -r '.["user-provided"] | .[].credentials | to_entries[] | "\(.key)=\(.value)"')
-
-true ${BOOTNODE_IP:?"!missing from VCAP_SERVICES"}
-true ${OTHER_NODE_IP:?"!missing from VCAP_SERVICES"}
-
-NODE_IP=$(hostname --ip-address)
+NODE_IP=$CF_INSTANCE_INTERNAL_IP
+BOOTNODE_IP=$(curl -f -s $BOOTNODE_IP_ROUTE)
+OTHER_NODE_IP=$(curl -f -s $OTHER_NODE_IP_ROUTE)
 echo "NODE_IP=$NODE_IP"
 echo "BOOTNODE_IP=$BOOTNODE_IP"
 echo "OTHER_NODE_IP=$OTHER_NODE_IP"
@@ -49,4 +45,6 @@ PRIVATE_CONFIG=$PRIVATE_CONFIG_FILE \
   --rpcport $RPC_PORT \
   --port $LISTEN_PORT \
   --verbosity 4 \
-;
+&
+
+wait
