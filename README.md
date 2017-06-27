@@ -64,10 +64,8 @@
 
 1. Update the service with the bootnode's IP
    ```bash
-   BOOTNODE_IP=$(cf ssh bootnode -c "hostname --ip-address")
-
    cf update-user-provided-service ip-service -p "{
-     \"BOOTNODE_IP\": \"$BOOTNODE_IP\"
+     \"BOOTNODE_IP\": \"$(cf ssh bootnode -c "hostname --ip-address")\"
    }"
    ```
 
@@ -78,12 +76,9 @@
 
 1. Update the service with the bootnode's and node-1's IPs
    ```bash
-   BOOTNODE_IP=$(cf ssh bootnode -c "hostname --ip-address")
-   OTHER_NODE_IP=$(cf ssh node-1 -c "hostname --ip-address")
-
    cf update-user-provided-service ip-service -p "{
-     \"BOOTNODE_IP\": \"$BOOTNODE_IP\",
-     \"OTHER_NODE_IP\": \"$OTHER_NODE_IP\"
+     \"BOOTNODE_IP\": \"$(cf ssh bootnode -c 'hostname --ip-address')\",
+     \"OTHER_NODE_IP\": \"$(cf ssh node-1 -c 'hostname --ip-address')\"
    }"
    ```
 
