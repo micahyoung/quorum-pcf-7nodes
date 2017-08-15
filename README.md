@@ -1,6 +1,6 @@
 # Quorum on Pivotal Cloud Foundry - 7nodes example
 
-[JPMC Quorum](https://www.jpmorgan.com/quorum) running on (Pivotal Cloud Foundry)[https://pivotal.io/platform]. Based on the Quorum 7-node demo:
+[JPMC Quorum](https://www.jpmorgan.com/quorum) running on [Pivotal Cloud Foundry](https://pivotal.io/platform). Based on the Quorum 7-node demo:
 
 https://github.com/jpmorganchase/quorum-examples
 
