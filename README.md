@@ -102,6 +102,26 @@ https://github.com/jpmorganchase/quorum-examples
    cf push node-7   -p deploy/ -f quorum-pcf-7nodes/manifests/node-7-manifest.yml    --no-start
    ```
 
+1. Update all apps with bootnode and othernode randomly generated routes
+   ```bash
+   BOOTNODE_IP_ROUTE=$(cf app bootnode | grep routes: | awk '{print $2}')
+   OTHER_NODE_IP_ROUTE=$(cf app node-1 | grep routes: | awk '{print $2}')
+   cf set-env node-1  BOOTNODE_IP_ROUTE $BOOTNODE_IP_ROUTE
+   cf set-env node-2  BOOTNODE_IP_ROUTE $BOOTNODE_IP_ROUTE
+   cf set-env node-3  BOOTNODE_IP_ROUTE $BOOTNODE_IP_ROUTE
+   cf set-env node-4  BOOTNODE_IP_ROUTE $BOOTNODE_IP_ROUTE
+   cf set-env node-5  BOOTNODE_IP_ROUTE $BOOTNODE_IP_ROUTE
+   cf set-env node-6  BOOTNODE_IP_ROUTE $BOOTNODE_IP_ROUTE
+   cf set-env node-7  OTHER_NODE_IP_ROUTE $OTHER_NODE_IP_ROUTE
+   cf set-env node-1  OTHER_NODE_IP_ROUTE $OTHER_NODE_IP_ROUTE
+   cf set-env node-2  OTHER_NODE_IP_ROUTE $OTHER_NODE_IP_ROUTE
+   cf set-env node-3  OTHER_NODE_IP_ROUTE $OTHER_NODE_IP_ROUTE
+   cf set-env node-4  OTHER_NODE_IP_ROUTE $OTHER_NODE_IP_ROUTE
+   cf set-env node-5  OTHER_NODE_IP_ROUTE $OTHER_NODE_IP_ROUTE
+   cf set-env node-6  OTHER_NODE_IP_ROUTE $OTHER_NODE_IP_ROUTE
+   cf set-env node-7  OTHER_NODE_IP_ROUTE $OTHER_NODE_IP_ROUTE
+   ```
+
 1. Add all the container to container networking rules (copy, paste, wait...)
    ```bash
    cf allow-access node-2   node-1   --protocol tcp --port 9000

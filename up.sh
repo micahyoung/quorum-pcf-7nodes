@@ -35,6 +35,14 @@ pushd $TMP_DIR
      cf push node-${node_num} -p deploy/ -f quorum-pcf-7nodes/manifests/node-${node_num}-manifest.yml    --no-start
   done
 
+  echo Set routes env vars for each node
+  BOOTNODE_IP_ROUTE=$(cf app bootnode | grep routes: | awk '{print $2}')
+  OTHER_NODE_IP_ROUTE=$(cf app node-1 | grep routes: | awk '{print $2}')
+  for node_num in {1..7}; do
+     cf set-env node-${node_num} BOOTNODE_IP_ROUTE $BOOTNODE_IP_ROUTE
+     cf set-env node-${node_num} OTHER_NODE_IP_ROUTE $OTHER_NODE_IP_ROUTE
+  done
+
   echo "Setting C2C rules bootnode-to-node"
   for node_num in {1..7}; do
     declare -i dest_portsuffix=$node_num-1
