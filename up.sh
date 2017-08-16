@@ -3,7 +3,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-TMP_DIR=/var/folders/yy/12k_6xh97wxdn7sd49990n140000gn/T/tmp.lUD4OarD #$(mktemp -d)
+TMP_DIR=$(mktemp -d)
 QUORUM_RELEASE="0.0.14"
 
 if grep "Not logged in" <(cf api); then
