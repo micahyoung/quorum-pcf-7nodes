@@ -63,7 +63,7 @@ https://github.com/jpmorganchase/quorum-examples
 
 1. Download the latest release binaries and libraries from quorum pipeline to `deploy/bin`
 
-   Download `bootnode`, `constellation-node`, `geth`, `solc`, `libsodium.*` and save to `deploy/bin`
+   Download `bootnode`, `constellation-node`, `geth`, `solc` and save to `deploy/bin`
    
    https://github.com/micahyoung/quorum-pcf-pipeline/releases/
 
