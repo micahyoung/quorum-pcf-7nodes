@@ -348,6 +348,6 @@ https://github.com/jpmorganchase/quorum-examples
    cf start node-7
    ```
 
-1. SSH into node-1 to run the `script1.js` using instructions from **Automatic Deployment** -> Step 2
+1. SSH into node-1 to run the `script1.js` using instructions from [**Automatic Deployment**](#automatic-deployment) -> Step 2
  
 
