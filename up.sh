@@ -21,10 +21,10 @@ git clone https://github.com/jpmorganchase/quorum-examples quorum-examples
 cp -r quorum-examples/examples/7nodes/* deploy/
 
 echo Gathering PCF artifacts
-cp -r quorum-pcf-7nodes/run-scripts/* deploy/
+cp -r run-scripts/* deploy/
 
 echo Pushing bootnode
-cf push bootnode -p deploy/ -f quorum-pcf-7nodes/manifests/bootnode-manifest.yml --no-start
+cf push bootnode -p deploy/ -f manifests/bootnode-manifest.yml --no-start
 
 echo Pushing nodes
 for node_num in {1..7}; do
