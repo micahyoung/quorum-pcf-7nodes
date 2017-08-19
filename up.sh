@@ -28,7 +28,7 @@ cf push bootnode -p deploy/ -f manifests/bootnode-manifest.yml --no-start
 
 echo Pushing nodes
 for node_num in {1..7}; do
-   cf push node-${node_num} -p deploy/ -f quorum-pcf-7nodes/manifests/node-${node_num}-manifest.yml --no-start
+   cf push node-${node_num} -p deploy/ -f manifests/node-${node_num}-manifest.yml --no-start
 done
 
 echo Set routes env vars for each node
