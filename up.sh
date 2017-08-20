@@ -3,7 +3,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-QUORUM_PCF_RELEASE="0.0.14"
+QUORUM_PCF_RELEASE="0.0.16"
 
 if grep "Not logged in" <(cf api); then
   exit 1
