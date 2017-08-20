@@ -11,7 +11,7 @@ fi
 
 echo Gathering binary artifacts
 mkdir -p deploy/bin
-for file in bootnode constellation-node geth solc; do
+for file in bootnode constellation-node geth solc libsodium.so.18; do
   curl -L https://github.com/micahyoung/quorum-pcf-pipeline/releases/download/$QUORUM_PCF_RELEASE/$file > deploy/bin/$file
   chmod +x deploy/bin/$file
 done
