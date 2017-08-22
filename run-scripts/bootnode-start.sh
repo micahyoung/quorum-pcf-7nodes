@@ -2,6 +2,8 @@
 set -u
 set -e
 
+trap 'kill -- -$$' EXIT #tear down process group exiting or after wait failure
+
 true ${BOOTNODE_PORT:?"!"}
 true ${BOOTNODE_KEYHEX:?"!"}
 
@@ -20,4 +22,4 @@ bootnode \
   --verbosity 9 \
 &
 
-wait
+wait -n

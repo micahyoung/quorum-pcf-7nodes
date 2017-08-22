@@ -2,6 +2,8 @@
 set -u
 set -e
 
+trap 'kill -- -$$' EXIT #tear down process group exiting
+
 true ${NETID:?"!"}
 true ${BOOTNODE_HASH:?"!"}
 true ${BOOTNODE_PORT:?"!"}
@@ -51,4 +53,4 @@ PRIVATE_CONFIG=$PRIVATE_CONFIG_FILE \
   --verbosity 4 \
 &
 
-wait
+wait -n
