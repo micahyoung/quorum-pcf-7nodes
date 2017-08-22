@@ -40,12 +40,9 @@ cp -r quorum-examples/examples/7nodes/* deploy/
 echo Gathering PCF artifacts
 cp -r run-scripts/* deploy/
 
-echo Pushing bootnode
-cf push bootnode -p deploy/ -f manifests/bootnode-manifest.yml --no-start
-
 echo Pushing nodes
-for node_num in ${INSTANCES[@]}; do
-   cf push node-${node_num} -p deploy/ -f manifests/node-${node_num}-manifest.yml --no-start
+for node in bootnode node-${INSTANCES[@]}; do
+   cf push $node -p deploy/ -f manifests/$node-manifest.yml --no-start
 done
 
 echo Set routes env vars for each node
@@ -80,11 +77,8 @@ for source_node_num in {1..7}; do
   done
 done
 
-echo Starting bootnode
-cf start bootnode
-
 echo Starting nodes
-for node_num in ${INSTANCES[@]}; do
-  cf start node-${node_num}
+for node in bootnode node-${INSTANCES[@]}; do
+  cf start $node
 done
 
