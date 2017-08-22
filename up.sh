@@ -24,7 +24,11 @@ elif [ $ORG_MEMORY_GB -ge 2 ]; then
   echo Only deploying nodes ${INSTANCES[@]}.
 else
   echo Must have at least 2GB or RAM.
+  exit 1
 fi
+
+NODE_NAMES=$(printf "node-%s " "${INSTANCES[@]}")
+NODE_IDS="${INSTANCES[@]}"
 
 echo Gathering binary artifacts
 mkdir -p deploy/bin
@@ -41,20 +45,21 @@ echo Gathering PCF artifacts
 cp -r run-scripts/* deploy/
 
 echo Pushing nodes
-for node in bootnode node-${INSTANCES[@]}; do
+for node in bootnode $NODE_NAMES; do
    cf push $node -p deploy/ -f manifests/$node-manifest.yml --no-start
 done
 
 echo Set routes env vars for each node
 BOOTNODE_IP_ROUTE=$(cf app bootnode | grep routes: | awk '{print $2}')
 OTHER_NODE_IP_ROUTE=$(cf app node-1 | grep routes: | awk '{print $2}')
-for node_num in {1..7}; do
-   cf set-env node-${node_num} BOOTNODE_IP_ROUTE $BOOTNODE_IP_ROUTE
-   cf set-env node-${node_num} OTHER_NODE_IP_ROUTE $OTHER_NODE_IP_ROUTE
+for node in $NODE_NAMES; do
+   cf set-env $node BOOTNODE_IP_ROUTE $BOOTNODE_IP_ROUTE
+   cf set-env $node OTHER_NODE_IP_ROUTE $OTHER_NODE_IP_ROUTE
 done
 
 echo "Setting C2C rules bootnode-to-node"
-for node_num in {1..7}; do
+
+for node_num in $NODE_IDS; do
   declare -i dest_portsuffix=$node_num-1
 
   cf allow-access bootnode node-${node_num} --protocol tcp --port 2100${dest_portsuffix}
@@ -64,8 +69,8 @@ for node_num in {1..7}; do
 done
 
 echo Setting C2C rules node-to-node
-for source_node_num in {1..7}; do
-  for dest_node_num in {1..7}; do
+for source_node_num in $NODE_IDS; do
+  for dest_node_num in $NODE_IDS; do
     [[ $source_node_num -eq $dest_node_num ]] && continue
 
     declare -i dest_portsuffix=$dest_node_num-1
@@ -78,7 +83,7 @@ for source_node_num in {1..7}; do
 done
 
 echo Starting nodes
-for node in bootnode node-${INSTANCES[@]}; do
+for node in bootnode $NODE_NAMES; do
   cf start $node
 done
 
