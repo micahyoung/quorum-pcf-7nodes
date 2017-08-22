@@ -3,7 +3,7 @@ applications:
 - name: node-2
   buildpack: binary_buildpack
   health-check-type: process
-  memory: 1024MB
+  memory: 700MB
   no-route: true
   command: ./blockmaker-node-start.sh
   env:

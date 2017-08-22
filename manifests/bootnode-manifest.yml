@@ -3,7 +3,7 @@ applications:
 - name: bootnode
   buildpack: binary_buildpack
   health-check-type: process
-  memory: 512MB
+  memory: 32MB
   command: ./bootnode-start.sh
   env:
     BOOTNODE_PORT: 33445

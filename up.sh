@@ -9,6 +9,23 @@ if grep "Not logged in" <(cf api); then
   exit 1
 fi
 
+ORG_NAME=$(cf target | grep org | awk '{print $2}')
+ORG_QUOTA_NAME=$(cf org $ORG_NAME | grep quota | awk '{print $2}')
+ORG_MEMORY=$(cf quota $ORG_QUOTA_NAME | grep "Total Memory" | awk '{print $3}')
+
+echo Your org \'$ORG_NAME\' has $ORG_MEMORY RAM total
+
+declare -i ORG_MEMORY_GB=${ORG_MEMORY/G/}
+if [ $ORG_MEMORY_GB -ge 3 ]; then
+  INSTANCES=({1..7})
+  echo Deploying all nodes
+elif [ $ORG_MEMORY_GB -ge 2 ]; then
+  INSTANCES=(1 2 4 7)
+  echo Only deploying nodes ${INSTANCES[@]}.
+else
+  echo Must have at least 2GB or RAM.
+fi
+
 echo Gathering binary artifacts
 mkdir -p deploy/bin
 for file in bootnode constellation-node geth solc libsodium.so.18; do
@@ -27,7 +44,7 @@ echo Pushing bootnode
 cf push bootnode -p deploy/ -f manifests/bootnode-manifest.yml --no-start
 
 echo Pushing nodes
-for node_num in {1..7}; do
+for node_num in ${INSTANCES[@]}; do
    cf push node-${node_num} -p deploy/ -f manifests/node-${node_num}-manifest.yml --no-start
 done
 
@@ -67,7 +84,7 @@ echo Starting bootnode
 cf start bootnode
 
 echo Starting nodes
-for node_num in {1..7}; do
+for node_num in ${INSTANCES[@]}; do
   cf start node-${node_num}
 done
 
