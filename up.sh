@@ -30,6 +30,10 @@ fi
 NODE_NAMES=$(printf "node-%s " "${INSTANCES[@]}")
 NODE_IDS="${INSTANCES[@]}"
 
+# clean up previous directories
+rm -rf deploy
+rm -rf quorum-examples
+
 echo Gathering binary artifacts
 mkdir -p deploy/bin
 for file in bootnode constellation-node geth solc libsodium.so.18; do
@@ -38,9 +42,7 @@ for file in bootnode constellation-node geth solc libsodium.so.18; do
 done
 
 echo Gathering 7nodes artifacts
-if ! [ -d quorum-examples ]; then
-  git clone https://github.com/jpmorganchase/quorum-examples quorum-examples
-fi
+git clone https://github.com/jpmorganchase/quorum-examples quorum-examples
 cp -r quorum-examples/examples/7nodes/* deploy/
 
 echo Gathering PCF artifacts
@@ -48,7 +50,7 @@ cp -r run-scripts/* deploy/
 
 echo Pushing nodes
 for node in bootnode $NODE_NAMES; do
-   cf push $node -p deploy/ -f manifests/$node-manifest.yml --no-start
+  cf push $node -p deploy/ -f manifests/$node-manifest.yml --no-start
 done
 
 echo Set routes env vars for each node
