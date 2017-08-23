@@ -29,6 +29,8 @@ sed -ibak "s|otherNodeUrls = .*|otherNodeUrls = [\"http://$OTHER_NODE_IP:$OTHER_
 export PATH=$PATH:`pwd`/bin
 export LD_LIBRARY_PATH=`pwd`/bin
 
+./init.sh
+
 constellation-node \
   --verbosity=9 \
   $PRIVATE_CONFIG_FILE \
