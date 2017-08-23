@@ -38,7 +38,9 @@ for file in bootnode constellation-node geth solc libsodium.so.18; do
 done
 
 echo Gathering 7nodes artifacts
-git clone https://github.com/jpmorganchase/quorum-examples quorum-examples
+if ! [ -d quorum-examples ]; then
+  git clone https://github.com/jpmorganchase/quorum-examples quorum-examples
+fi
 cp -r quorum-examples/examples/7nodes/* deploy/
 
 echo Gathering PCF artifacts
