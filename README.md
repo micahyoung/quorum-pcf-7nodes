@@ -19,7 +19,13 @@ https://github.com/jpmorganchase/quorum-examples
 
 ## Automatic deployment
 
-1. Run `up.sh`
+1. Clone this repo and go into directory
+   ```bash
+   git clone https://github.com/micahyoung/quorum-pcf-7nodes
+   cd quorum-pcf-7nodes
+   ```
+   
+1. Run `./up.sh`
 
 1. SSH into node-1 to run the `script1.js`
    * on your command line:
