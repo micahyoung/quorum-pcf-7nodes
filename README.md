@@ -27,32 +27,7 @@ https://github.com/jpmorganchase/quorum-examples
 1. Run `./up.sh`
    * *Note: this will take several minutes to complete*
 
-1. SSH into node-1 to run the `script1.js`
-   * on your command line:
-      ```bash
-      cf ssh node-1
-      ```
-
-   * ... within the container:
-      ```sh
-      cd app
-      export PATH=$PATH:`pwd`/bin
-      geth attach qdata/dd1/geth.ipc
-      ```
-
-   * ... in the solc interpreter:
-      ```js
-      loadScript('script1.js')
-      ```
-
-   * ... you should see the output if successful
-      ```js
-      Contract transaction send: TransactionHash: 0x541da6399119e66687fe5edada5162d586c56271800d626e33cf9e7ae811d8f6 waiting to be mined...
-      true
-      > Contract mined! Address: 0x064f860b6683223b03b38252853d5d2c210cce19
-      [object Object]
-      ```
-
+1. Run a test transaction using instructions from [**Verify Deployment**](#verify-deployment)
 
 ## Manual Deployment
 
@@ -354,6 +329,74 @@ https://github.com/jpmorganchase/quorum-examples
    cf start node-7
    ```
 
-1. SSH into node-1 to run the `script1.js` using instructions from [**Automatic Deployment**](#automatic-deployment) -> Step 2
+1. Run a test transaction using instructions from [**Verify Deployment**](#verify-deployment)
  
+## Verify Deployment
 
+1. Confirm that everything ran correcting 
+1. SSH into node-1 to run the `script1.js`
+   * on your command line:
+      ```bash
+      cf ssh node-1
+      ```
+
+   * ... within the container:
+      ```sh
+      cd app
+      export PATH=$PATH:`pwd`/bin
+      geth attach qdata/dd1/geth.ipc
+      ```
+
+   * ... in the solc interpreter:
+      ```js
+      loadScript('script1.js')
+      ```
+
+   * ... you should see the output if successful
+      ```js
+      Contract transaction send: TransactionHash: 0x541da6399119e66687fe5edada5162d586c56271800d626e33cf9e7ae811d8f6 waiting to be mined...
+      true
+      > Contract mined! Address: 0x064f860b6683223b03b38252853d5d2c210cce19
+      [object Object]
+      ```
+   * Now we can check the details of the transaction
+      ```js
+      var address = "0x1932c48b2bf8102ba33b4a6b545c32236e342f34";
+      var abi = [{"constant":true,"inputs":[],"name":"storedData","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"x","type":"uint256"}],"name":"set","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"get","outputs":[{"name":"retVal","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"initVal","type":"uint256"}],"type":"constructor"}];
+      var private = eth.contract(abi).at(address);
+      
+      private.get(); // should be 42
+      ```
+    
+   * ... and confirm the same on node-7
+      ```bash
+      cf ssh node-7
+      ```
+      
+      ```sh
+      app/bin/geth attach app/qdata/dd7/geth.ipc
+      ```
+
+      ```js
+      var address = "0x1932c48b2bf8102ba33b4a6b545c32236e342f34";
+      var abi = [{"constant":true,"inputs":[],"name":"storedData","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"x","type":"uint256"}],"name":"set","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"get","outputs":[{"name":"retVal","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"initVal","type":"uint256"}],"type":"constructor"}];
+      var private = eth.contract(abi).at(address);
+      
+      private.get(); // should be 42
+      ```
+   * ... and no other node should have the details
+      ```bash
+      cf ssh node-2
+      ```
+      
+      ```sh
+      app/bin/geth attach app/qdata/dd2/geth.ipc
+      ```
+
+      ```js
+      var address = "0x1932c48b2bf8102ba33b4a6b545c32236e342f34";
+      var abi = [{"constant":true,"inputs":[],"name":"storedData","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"x","type":"uint256"}],"name":"set","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"get","outputs":[{"name":"retVal","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"initVal","type":"uint256"}],"type":"constructor"}];
+      var private = eth.contract(abi).at(address);
+      
+      private.get(); // should be 0
+      ```
