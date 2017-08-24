@@ -3,7 +3,7 @@ applications:
 - name: node-3
   buildpack: binary_buildpack
   health-check-type: process
-  memory: 140MB
+  memory: 150MB
   no-route: true
   command: ./node-start.sh
   env:

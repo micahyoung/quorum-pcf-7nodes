@@ -62,7 +62,6 @@ for node in $NODE_NAMES; do
 done
 
 echo "Setting C2C rules bootnode-to-node"
-
 for node_num in $NODE_IDS; do
   declare -i dest_portsuffix=$node_num-1
 

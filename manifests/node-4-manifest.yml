@@ -3,7 +3,7 @@ applications:
 - name: node-4
   buildpack: binary_buildpack
   health-check-type: process
-  memory: 400MB
+  memory: 420MB
   no-route: true
   command: ./voter-node-start.sh
   env:
