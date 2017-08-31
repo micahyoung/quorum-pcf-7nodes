@@ -348,7 +348,7 @@ https://github.com/jpmorganchase/quorum-examples
       ```sh
       app/bin/geth attach app/qdata/dd1/geth.ipc
 
-      > loadScript('script1.js')
+      > loadScript('app/script1.js')
       ```
    * ... you should see the output if successful
       ```js
