@@ -346,7 +346,7 @@ https://github.com/jpmorganchase/quorum-examples
 
    * open the solc interpreter and run the script:
       ```sh
-      app/bin/geth attach app/qdata/dd7/geth.ipc
+      app/bin/geth attach app/qdata/dd1/geth.ipc
 
       > loadScript('script1.js')
       ```
