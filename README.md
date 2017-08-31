@@ -13,7 +13,7 @@ https://github.com/jpmorganchase/quorum-examples
   * Also supported on [Pivotal Cloud Foundry 1.10](https://docs.pivotal.io/pivotalcf/1-10/pcf-release-notes/index.html) and higher
 * Log in and target an org and space with at least 5GB memory
    ```bash
-   cf login -a https://api.run.pivotal.io -o my-org -s my-space
+   cf login -a https://api.run.pivotal.io
    ```
 
 ## Automatic deployment
