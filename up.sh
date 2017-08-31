@@ -9,7 +9,7 @@ if grep "Not logged in" <(cf api); then
   exit 1
 fi
 
-ORG_NAME=$(cf target | grep org | awk '{print $2}')
+ORG_NAME=$(cf target | grep -v Getting | grep org | awk '{print $2}')
 ORG_QUOTA_NAME=$(cf org $ORG_NAME | grep quota | awk '{print $2}')
 ORG_MEMORY=$(cf quota $ORG_QUOTA_NAME | grep "Total Memory" | awk '{print $3}')
 
