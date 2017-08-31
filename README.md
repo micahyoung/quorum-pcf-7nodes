@@ -15,6 +15,10 @@ https://github.com/jpmorganchase/quorum-examples
    ```bash
    cf login -a https://api.run.pivotal.io
    ```
+* CF CLI network-policy plugin
+   ```bash
+   cf install-plugin network-policy
+   ```
 
 ## Automatic deployment
 
