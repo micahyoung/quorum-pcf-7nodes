@@ -344,18 +344,12 @@ https://github.com/jpmorganchase/quorum-examples
       cf ssh node-1
       ```
 
-   * ... within the container:
+   * open the solc interpreter and run the script:
       ```sh
-      cd app
-      export PATH=$PATH:`pwd`/bin
-      geth attach qdata/dd1/geth.ipc
-      ```
+      app/bin/geth attach app/qdata/dd7/geth.ipc
 
-   * ... in the solc interpreter:
-      ```js
-      loadScript('script1.js')
+      > loadScript('script1.js')
       ```
-
    * ... you should see the output if successful
       ```js
       Contract transaction send: TransactionHash: 0x541da6399119e66687fe5edada5162d586c56271800d626e33cf9e7ae811d8f6 waiting to be mined...
