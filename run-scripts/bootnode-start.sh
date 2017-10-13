@@ -18,7 +18,7 @@ done &
 
 bootnode \
   --nodekeyhex "$BOOTNODE_KEYHEX" \
-  --addr="0.0.0.0:$BOOTNODE_PORT" \
+  --addr="$NODE_IP:$BOOTNODE_PORT" \
   --verbosity 9 \
 &
 
