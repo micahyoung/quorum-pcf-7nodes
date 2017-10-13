@@ -7,18 +7,19 @@ trap 'kill -- -$$' EXIT #tear down process group exiting or after wait failure
 true ${BOOTNODE_PORT:?"!"}
 true ${BOOTNODE_KEYHEX:?"!"}
 
-NODE_IP=$CF_INSTANCE_INTERNAL_IP
-echo "NODE_IP=$NODE_IP"
-
 export PATH=$PATH:`pwd`/bin
 
+BOOTNODE_PUBKEY=$(bootnode --writeaddress --nodekey <(echo $BOOTNODE_KEYHEX))
+
+# log data for broker
 while true; do
-  nc -l $PORT < <(echo -e "HTTP/1.1 200 OK\n\n$NODE_IP") > /dev/null
+  echo BOOTNODE=$BOOTNODE_PUBKEY@$CF_INSTANCE_INTERNAL_IP:$BOOTNODE_PORT
+  sleep 5
 done &
 
 bootnode \
   --nodekeyhex "$BOOTNODE_KEYHEX" \
-  --addr="0.0.0.0:$BOOTNODE_PORT" \
+  --addr="$CF_INSTANCE_INTERNAL_IP:$BOOTNODE_PORT" \
   --verbosity 9 \
 &
 

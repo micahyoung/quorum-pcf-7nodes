@@ -4,15 +4,14 @@ applications:
   buildpack: binary_buildpack
   health-check-type: process
   memory: 420MB
+  no-route: true
   command: ./primary-node-start.sh
   env:
-    #BOOTNODE_IP_ROUTE: set dynamically
-    BOOTNODE_PORT: 33445
     NETID: 87234
-    BOOTNODE_HASH: 61077a284f5ba7607ab04f33cfde2750d659ad9af962516e159cf6ce708646066cd927a900944ce393b98b95c914e4d6c54b099f568342647a1cd4a262cc0423
     NODE_PORT: 9000
     RPC_PORT: 22000
     LISTEN_PORT: 21000
     PRIVATE_CONFIG_FILE: tm1.conf
     DATA_DIR: qdata/dd1
-  random-route: true
+  services:
+    - quorum-discovery

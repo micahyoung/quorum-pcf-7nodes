@@ -5,9 +5,6 @@ set -e
 trap 'kill -- -$$' EXIT #tear down process group exiting
 
 true ${NETID:?"!"}
-true ${BOOTNODE_HASH:?"!"}
-true ${BOOTNODE_PORT:?"!"}
-true ${BOOTNODE_IP_ROUTE:?"!"}
 true ${PRIVATE_CONFIG_FILE:?"!"}
 true ${DATA_DIR:?"!"}
 true ${RPC_PORT:?"!"}
@@ -15,13 +12,9 @@ true ${LISTEN_PORT:?"!"}
 true ${NODE_PORT:?"!"}
 
 NODE_IP=$CF_INSTANCE_INTERNAL_IP
-BOOTNODE_IP=$(curl -f -s $BOOTNODE_IP_ROUTE)
+BOOTNODE=$(jq -r '.["ethereum-service"][0].credentials.bootnode' <(echo $VCAP_SERVICES))
 echo "NODE_IP=$NODE_IP"
-echo "BOOTNODE_IP=$BOOTNODE_IP"
-
-while true; do
-  nc -l $PORT < <(echo -e "HTTP/1.1 200 OK\n\n$NODE_IP") > /dev/null
-done &
+echo "BOOTNODE=$BOOTNODE"
 
 sed -ibak "s|url = .*|url = \"http://$NODE_IP:$NODE_PORT/\"|" $PRIVATE_CONFIG_FILE
 sed -ibak "s|port = .*|port = $NODE_PORT|" $PRIVATE_CONFIG_FILE
@@ -42,7 +35,7 @@ sleep 5
 PRIVATE_CONFIG=$PRIVATE_CONFIG_FILE \
   geth \
   --datadir $DATA_DIR \
-  --bootnodes enode://$BOOTNODE_HASH@[$BOOTNODE_IP]:$BOOTNODE_PORT \
+  --bootnodes enode://$BOOTNODE \
   --networkid $NETID \
   --rpc \
   --rpcaddr 0.0.0.0 \

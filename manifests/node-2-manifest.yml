@@ -7,11 +7,8 @@ applications:
   no-route: true
   command: ./blockmaker-node-start.sh
   env:
-    #BOOTNODE_IP_ROUTE: set dynamically
-    #OTHER_NODE_IP_ROUTE: set dynamically
     BOOTNODE_PORT: 33445
     OTHER_NODE_PORT: 9000
-    BOOTNODE_HASH: 61077a284f5ba7607ab04f33cfde2750d659ad9af962516e159cf6ce708646066cd927a900944ce393b98b95c914e4d6c54b099f568342647a1cd4a262cc0423
     NETID: 87234
     NODE_PORT: 9001
     RPC_PORT: 22001
@@ -20,3 +17,5 @@ applications:
     DATA_DIR: qdata/dd2
     VOTE_ACCOUNT: "0x0fbdc686b912d7722dc86510934589e0aaf3b55a"
     BLOCKMAKER_ACCOUNT: "0xca843569e3427144cead5e4d5999a3d0ccf92b8e"
+  services:
+    - quorum-discovery

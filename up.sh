@@ -48,17 +48,12 @@ cp -r quorum-examples/examples/7nodes/* deploy/
 echo Gathering PCF artifacts
 cp -r run-scripts/* deploy/
 
+echo Creating discovery service instance
+cf create-service ethereum-service public quorum-discovery
+
 echo Pushing nodes
 for node in bootnode $NODE_NAMES; do
   cf push $node -p deploy/ -f manifests/$node-manifest.yml --no-start
-done
-
-echo Set routes env vars for each node
-BOOTNODE_IP_ROUTE=$(cf app bootnode | grep routes: | awk '{print $2}')
-OTHER_NODE_IP_ROUTE=$(cf app node-1 | grep routes: | awk '{print $2}')
-for node in $NODE_NAMES; do
-   cf set-env $node BOOTNODE_IP_ROUTE $BOOTNODE_IP_ROUTE
-   cf set-env $node OTHER_NODE_IP_ROUTE $OTHER_NODE_IP_ROUTE
 done
 
 echo "Setting C2C rules bootnode-to-node"
@@ -85,8 +80,15 @@ for source_node_num in $NODE_IDS; do
   done
 done
 
-echo Starting nodes
-for node in bootnode $NODE_NAMES; do
+cf start bootnode
+
+read  -n 1 -p "Check /log-collector/bootnodes for bootnode: " mainmenuinput
+
+echo Rebining node services and starting for the latest bootnode and node data
+for node in $NODE_NAMES; do
+  cf unbind-service $node quorum-discovery
+  cf bind-service $node quorum-discovery
   cf start $node
+  sleep 20 #allow for nodes to populate in discovery service
 done
 
