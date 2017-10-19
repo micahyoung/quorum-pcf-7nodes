@@ -7,15 +7,13 @@ applications:
   no-route: true
   command: ./voter-node-start.sh
   env:
-    #BOOTNODE_IP_ROUTE: set dynamically
-    #OTHER_NODE_IP_ROUTE: set dynamically
-    BOOTNODE_PORT: 33445
-    OTHER_NODE_PORT: 9000
-    BOOTNODE_HASH: 61077a284f5ba7607ab04f33cfde2750d659ad9af962516e159cf6ce708646066cd927a900944ce393b98b95c914e4d6c54b099f568342647a1cd4a262cc0423
     NETID: 87234
     NODE_PORT: 9004
     RPC_PORT: 22004
     LISTEN_PORT: 21004
     PRIVATE_CONFIG_FILE: tm5.conf
     DATA_DIR: qdata/dd5
+    OTHER_NODE_PORT: 9000
     VOTE_ACCOUNT: "0x0638e1574728b6d862dd5d3a3e0942c3be47d996"
+  services:
+    - quorum-discovery

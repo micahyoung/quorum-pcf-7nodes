@@ -7,13 +7,13 @@ applications:
   no-route: true
   command: ./voter-node-start.sh
   env:
-    OTHER_NODE_PORT: 9000
     NETID: 87234
     NODE_PORT: 9003
     RPC_PORT: 22003
     LISTEN_PORT: 21003
     PRIVATE_CONFIG_FILE: tm4.conf
     DATA_DIR: qdata/dd4
+    OTHER_NODE_PORT: 9000
     VOTE_ACCOUNT: "0x9186eb3d20cbd1f5f992a950d808c4495153abd5"
   services:
     - quorum-discovery

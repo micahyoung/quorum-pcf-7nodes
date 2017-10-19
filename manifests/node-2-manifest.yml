@@ -7,14 +7,13 @@ applications:
   no-route: true
   command: ./blockmaker-node-start.sh
   env:
-    BOOTNODE_PORT: 33445
-    OTHER_NODE_PORT: 9000
     NETID: 87234
     NODE_PORT: 9001
     RPC_PORT: 22001
     LISTEN_PORT: 21001
     PRIVATE_CONFIG_FILE: tm2.conf
     DATA_DIR: qdata/dd2
+    OTHER_NODE_PORT: 9000
     VOTE_ACCOUNT: "0x0fbdc686b912d7722dc86510934589e0aaf3b55a"
     BLOCKMAKER_ACCOUNT: "0xca843569e3427144cead5e4d5999a3d0ccf92b8e"
   services:
